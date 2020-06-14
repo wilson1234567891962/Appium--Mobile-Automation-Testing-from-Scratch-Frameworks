@@ -17,7 +17,10 @@ public class Principal {
 			 driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 		  
 			 driver.findElementByXPath("//android.widget.TextView[@text= 'Preference']").click();
-			 
+			 driver.findElementByXPath("//android.widget.TextView[@text= '3. Preference dependencies']").click();
+				
+			 driver.findElementById("android:id/checkbox").click();
+			 driver.findElementByXPath("(//android.widget.RelativeLayout)[2]").click();
 		} catch (MalformedURLException e) {
 			logger.error(e);
 		}
