@@ -14,15 +14,22 @@ public class Principal {
 	public static void main(String[] args) {
 		try {
 			 AndroidDriver<AndroidElement>  driver= Configuration.initConfiguration();
-			 driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-		  
-			 driver.findElementByXPath("//android.widget.TextView[@text= 'Preference']").click();
-			 driver.findElementByXPath("//android.widget.TextView[@text= '3. Preference dependencies']").click();
-				
-			 driver.findElementById("android:id/checkbox").click();
-			 driver.findElementByXPath("(//android.widget.RelativeLayout)[2]").click();
+			 testOne(driver);
 		} catch (MalformedURLException e) {
 			logger.error(e);
 		}
+	}
+	
+	private static void testOne(AndroidDriver<AndroidElement>  driver) {
+		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+		
+		 driver.findElementsByClassName("android.widget.Button").get(0).click();
+		 driver.findElementByXPath("//android.widget.TextView[@text= 'Preference']").click();
+		 driver.findElementByXPath("//android.widget.TextView[@text= '3. Preference dependencies']").click();
+			
+		 driver.findElementById("android:id/checkbox").click();
+		 driver.findElementByXPath("(//android.widget.RelativeLayout)[2]").click();
+		 driver.findElementByClassName("android.widget.EditText").sendKeys("prueba");
+		 driver.findElementsByClassName("android.widget.Button").get(1).click();
 	}
 }
