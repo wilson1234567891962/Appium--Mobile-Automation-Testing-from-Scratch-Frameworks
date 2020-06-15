@@ -20,8 +20,12 @@ public class Principal extends Configuration {
 
 	public static void main(String[] args) {
 		try {
-			
+			testOne();
+			testTwo();
+			testThreeWithGestures();
+			testFourthWithSwipe();
 			testFifthWithScrolling();
+			testSixthWithDragAndDrop();
 		} catch (MalformedURLException e) {
 			logger.error(e);
 		}
@@ -70,7 +74,6 @@ public class Principal extends Configuration {
 		driver.findElementByXPath("//android.widget.TextView[@text= '2. Inline']").click();
 		driver.findElementByXPath("//*[@content-desc='9']").click();
 		TouchAction t = new TouchAction(driver);
-		// long press //on element// 2 sec// move to another element and you release
 		WebElement first = driver.findElementByXPath("//*[@content-desc='15']");
 		WebElement second = driver.findElementByXPath("//*[@content-desc='45']");
 		t.longPress(longPressOptions().withElement(element(first)).withDuration(ofSeconds(2))).moveTo(element(second))
@@ -82,6 +85,18 @@ public class Principal extends Configuration {
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 		driver.findElementsByClassName("android.widget.Button").get(0).click();
 		driver.findElementByXPath("//android.widget.TextView[@text= 'Views']").click();
-		 driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"WebView\"));");
+		driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"ScrollBars\"));");
+	}
+	
+	private static void testSixthWithDragAndDrop() throws MalformedURLException {
+		AndroidDriver<AndroidElement> driver = initConfiguration();
+		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+		driver.findElementsByClassName("android.widget.Button").get(0).click();
+		driver.findElementByXPath("//android.widget.TextView[@text= 'Views']").click();
+		driver.findElementByXPath("//android.widget.TextView[@text= 'Drag and Drop']").click();
+		WebElement source=driver.findElementsByClassName("android.view.View").get(0);
+	    WebElement destination=driver.findElementsByClassName("android.view.View").get(1);
+		TouchAction t = new TouchAction(driver);
+		t.longPress(element(source)).moveTo(element(destination)).release().perform();
 	}
 }
