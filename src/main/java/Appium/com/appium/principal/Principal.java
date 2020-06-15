@@ -21,9 +21,7 @@ public class Principal extends Configuration {
 	
 	public static void main(String[] args) {
 		try {
-			 testOne();
-			 testTwo();
-			 testThreeWithGestures();
+			 testFourthWithSwipe();
 		} catch (MalformedURLException e) {
 			logger.error(e);
 		}
@@ -61,5 +59,15 @@ public class Principal extends Configuration {
 		WebElement people= driver.findElementByXPath("//android.widget.TextView[@text= 'People Names']");
 		t.longPress(longPressOptions().withElement(element(people)).withDuration(ofSeconds(2))).release().perform();
 		System.out.println( driver.findElementById("android:id/title").isDisplayed());
+	}
+	
+	private static void testFourthWithSwipe() throws MalformedURLException {
+		AndroidDriver<AndroidElement>  driver= initConfiguration();
+		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+		driver.findElementsByClassName("android.widget.Button").get(0).click();
+		driver.findElementByXPath("//android.widget.TextView[@text= 'Views']").click();
+		driver.findElementByXPath("//android.widget.TextView[@text= 'Date Widgets']").click();
+	    driver.findElementByXPath("//android.widget.TextView[@text= '2. Inline']").click();
+	    driver.findElementByXPath("//*[@content-desc='9']").click();
 	}
 }
