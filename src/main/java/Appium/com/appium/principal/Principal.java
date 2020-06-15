@@ -20,8 +20,8 @@ public class Principal extends Configuration {
 
 	public static void main(String[] args) {
 		try {
-
-			testFourthWithSwipe();
+			
+			testFifthWithScrolling();
 		} catch (MalformedURLException e) {
 			logger.error(e);
 		}
@@ -75,5 +75,13 @@ public class Principal extends Configuration {
 		WebElement second = driver.findElementByXPath("//*[@content-desc='45']");
 		t.longPress(longPressOptions().withElement(element(first)).withDuration(ofSeconds(2))).moveTo(element(second))
 				.release().perform();
+	}
+	
+	private static void testFifthWithScrolling() throws MalformedURLException {
+		AndroidDriver<AndroidElement> driver = initConfiguration();
+		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+		driver.findElementsByClassName("android.widget.Button").get(0).click();
+		driver.findElementByXPath("//android.widget.TextView[@text= 'Views']").click();
+		 driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"WebView\"));");
 	}
 }
