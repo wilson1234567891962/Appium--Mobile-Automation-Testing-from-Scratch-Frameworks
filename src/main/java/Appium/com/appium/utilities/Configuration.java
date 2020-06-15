@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.remote.MobileCapabilityType;
 
 public class Configuration {
 
@@ -23,9 +22,12 @@ public class Configuration {
 			Properties properties = new Properties();
 			properties.load(input);
 			DesiredCapabilities cap = new DesiredCapabilities();
-			cap.setCapability(MobileCapabilityType.DEVICE_NAME,  properties.getProperty("capabilities.device.name"));
-			cap.setCapability(MobileCapabilityType.APP,  properties.getProperty("capabilities.app.path"));
-			cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, properties.getProperty("capabilities.app.test"));
+			for(String key : properties.stringPropertyNames()) {
+				if(!key.equals("capabilities.server.path")) {
+					String value = properties.getProperty(key);
+					cap.setCapability(key, value);	
+				}
+			}
 			driver = new AndroidDriver<>(new URL(properties.getProperty("capabilities.server.path")), cap);
 		} catch (IOException ex) {
 			logger.error(ex);
