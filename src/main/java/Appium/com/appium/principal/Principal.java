@@ -21,16 +21,15 @@ public class Principal extends Configuration {
 
 	public static void main(String[] args) {
 		try {
-			/**testOne();
+			testOne();
 			testTwo();
 			testThreeWithGestures();
 			testFourthWithSwipe();
 			testFifthWithScrolling();
 			testSixthWithDragAndDrop();
-			**/
 			//testSeventh_OpenBrowser();
 			//testEight_CheckPage();
-			testNineth_ScrollView();
+			//testNineth_ScrollView();
 		} catch (MalformedURLException e) {
 			logger.error(e);
 		}
