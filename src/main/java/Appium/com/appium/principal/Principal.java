@@ -20,12 +20,14 @@ public class Principal extends Configuration {
 
 	public static void main(String[] args) {
 		try {
-			testOne();
+			/**testOne();
 			testTwo();
 			testThreeWithGestures();
 			testFourthWithSwipe();
 			testFifthWithScrolling();
 			testSixthWithDragAndDrop();
+			**/
+			testSeventh_OpenBrowser();
 		} catch (MalformedURLException e) {
 			logger.error(e);
 		}
@@ -98,5 +100,13 @@ public class Principal extends Configuration {
 	    WebElement destination=driver.findElementsByClassName("android.view.View").get(1);
 		TouchAction t = new TouchAction(driver);
 		t.longPress(element(source)).moveTo(element(destination)).release().perform();
+	}
+	
+	private static void testSeventh_OpenBrowser() throws MalformedURLException {
+		AndroidDriver<AndroidElement> driver = initConfiguration();
+		driver.get("https://www.facebook.com/");
+		driver.findElementByXPath("//*[@id='m_login_email']").sendKeys("Alejandro");
+		driver.findElementByName("pass").sendKeys("PREUBA");
+		driver.findElementByXPath("//button[@value='Log In']").click();
 	}
 }
