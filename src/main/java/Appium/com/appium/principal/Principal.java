@@ -3,6 +3,7 @@ package Appium.com.appium.principal;
 import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import Appium.com.appium.utilities.Configuration;
@@ -27,7 +28,9 @@ public class Principal extends Configuration {
 			testFifthWithScrolling();
 			testSixthWithDragAndDrop();
 			**/
-			testSeventh_OpenBrowser();
+			//testSeventh_OpenBrowser();
+			//testEight_CheckPage();
+			testNineth_ScrollView();
 		} catch (MalformedURLException e) {
 			logger.error(e);
 		}
@@ -108,5 +111,23 @@ public class Principal extends Configuration {
 		driver.findElementByXPath("//*[@id='m_login_email']").sendKeys("Alejandro");
 		driver.findElementByName("pass").sendKeys("PREUBA");
 		driver.findElementByXPath("//button[@value='Log In']").click();
+	}
+	
+	private static void testEight_CheckPage() throws MalformedURLException {
+		AndroidDriver<AndroidElement> driver = initConfiguration();
+		driver.get("https://m.cricbuzz.com");
+		driver.findElementByXPath("//a[@href='#menu']").click();
+		driver.findElementByCssSelector("a[title='Cricbuzz Home']").click();
+		System.out.println(driver.getCurrentUrl());
+	}
+	
+	private static void testNineth_ScrollView() throws MalformedURLException {
+		AndroidDriver<AndroidElement> driver = initConfiguration();
+		driver.get("https://m.cricbuzz.com");
+		driver.findElementByXPath("//a[@href='#menu']").click();
+		driver.findElementByCssSelector("a[title='Cricbuzz Home']").click();
+		System.out.println(driver.getCurrentUrl());
+		JavascriptExecutor javascript=(JavascriptExecutor) driver;
+		javascript.executeScript("window.scrollBy(0,480)", "");
 	}
 }
