@@ -1,10 +1,14 @@
 package Appium.com.appium.principal;
 
 import java.net.MalformedURLException;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import Appium.com.appium.utilities.Configuration;
 import io.appium.java_client.TouchAction;
@@ -32,8 +36,12 @@ public class Principal extends Configuration {
 			// testNineth_ScrollView();
 			// testTenth_CheckIcommerce();
 			// testEleventh_CheckToast();
-			testTwelveth_CheckInList();
+			// testTwelveth_CheckInList();
+			// testThirteenth_CheckPageAndList();
+			testFourteenth_CheckPageBrowser();
 		} catch (MalformedURLException e) {
+			logger.error(e);
+		} catch (InterruptedException e) {
 			logger.error(e);
 		}
 	}
@@ -181,5 +189,79 @@ public class Principal extends Configuration {
 		driver.findElement(By.id("com.androidsample.generalstore:id/appbar_btn_cart")).click();
 		String lastpageText = driver.findElement(By.id("com.androidsample.generalstore:id/productName")).getText();
 		Assert.assertEquals("Jordan 6 Rings", lastpageText);
+	}
+
+	private static void testThirteenth_CheckPageAndList() throws MalformedURLException, InterruptedException {
+		AndroidDriver<AndroidElement> driver = initConfiguration("Icommerce.properties");
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.findElement(By.id("com.androidsample.generalstore:id/nameField")).sendKeys("Hello");
+		driver.hideKeyboard();
+		driver.findElement(By.xpath("//*[@text='Female']")).click();
+		driver.findElement(By.id("android:id/text1")).click();
+		driver.findElementByAndroidUIAutomator(
+				"new UiScrollable(new UiSelector()).scrollIntoView(text(\"Argentina\"));");
+		driver.findElement(By.xpath("//*[@text='Argentina']")).click();
+		driver.findElement(By.id("com.androidsample.generalstore:id/btnLetsShop")).click();
+		driver.findElements(By.xpath("//*[@text='ADD TO CART']")).get(0).click();
+		driver.findElement(By.id("com.androidsample.generalstore:id/appbar_btn_cart")).click();
+		Thread.sleep(4000);
+		int count = driver.findElements(By.id("com.androidsample.generalstore:id/productPrice")).size();
+		double sum = 0;
+		for (int i = 0; i < count; i++) {
+			String amount1 = driver.findElements(By.id("com.androidsample.generalstore:id/productPrice")).get(i)
+					.getText();
+			double amount = getAmount(amount1);
+			sum = sum + amount;// 280.97+116.97
+		}
+		System.out.println(sum + "sum of products");
+		String total = driver.findElement(By.id("com.androidsample.generalstore:id/totalAmountLbl")).getText();
+		total = total.substring(1);
+		double totalValue = Double.parseDouble(total);
+		System.out.println(totalValue + "Total value of products");
+		Assert.assertEquals(sum, totalValue);
+		WebElement checkbox = driver.findElement(By.className("android.widget.CheckBox"));
+		TouchAction t = new TouchAction(driver);
+		t.tap(tapOptions().withElement(element(checkbox))).perform();
+		WebElement tc = driver.findElement(By.xpath("//*[@text='Please read our terms of conditions']"));
+		t.longPress(longPressOptions().withElement(element(tc)).withDuration(ofSeconds(2))).release().perform();
+		driver.findElement(By.id("android:id/button1")).click();
+		driver.findElement(By.id("com.androidsample.generalstore:id/btnProceed")).click();
+	}
+
+	private static void testFourteenth_CheckPageBrowser() throws MalformedURLException, InterruptedException {
+		AndroidDriver<AndroidElement> driver = initConfiguration("Icommerce.properties");
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.findElement(By.id("com.androidsample.generalstore:id/nameField")).sendKeys("Hello");
+		driver.hideKeyboard();
+		driver.findElement(By.xpath("//*[@text='Female']")).click();
+		driver.findElement(By.id("android:id/text1")).click();
+		driver.findElementByAndroidUIAutomator(
+				"new UiScrollable(new UiSelector()).scrollIntoView(text(\"Argentina\"));");
+		driver.findElement(By.xpath("//*[@text='Argentina']")).click();
+		driver.findElement(By.id("com.androidsample.generalstore:id/btnLetsShop")).click();
+		driver.findElements(By.xpath("//*[@text='ADD TO CART']")).get(0).click();
+		driver.findElement(By.id("com.androidsample.generalstore:id/appbar_btn_cart")).click();
+		Thread.sleep(4000);
+		// Mobile Gestures
+		WebElement checkbox = driver.findElement(By.className("android.widget.CheckBox"));
+		TouchAction t = new TouchAction(driver);
+		t.tap(tapOptions().withElement(element(checkbox))).perform();
+		driver.findElement(By.id("com.androidsample.generalstore:id/btnProceed")).click();
+		Thread.sleep(7000);
+		Set<String> contexts = driver.getContextHandles();
+		for (String contextName : contexts) {
+			System.out.println(contextName);
+		}
+		driver.context("WEBVIEW_com.androidsample.generalstore");
+		driver.findElement(By.name("q")).sendKeys("hello");
+		driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
+		driver.pressKey(new KeyEvent(AndroidKey.BACK));
+		driver.context("NATIVE_APP");
+	}
+
+	public static double getAmount(String value) {
+		value = value.substring(1);
+		double amount2value = Double.parseDouble(value);
+		return amount2value;
 	}
 }
