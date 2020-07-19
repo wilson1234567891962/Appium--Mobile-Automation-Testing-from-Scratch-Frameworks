@@ -3,6 +3,7 @@ package Appium.com.appium.principal;
 import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
@@ -21,22 +22,23 @@ public class Principal extends Configuration {
 
 	public static void main(String[] args) {
 		try {
-			testOne();
+		   /** testOne();
 			testTwo();
 			testThreeWithGestures();
 			testFourthWithSwipe();
 			testFifthWithScrolling();
 			testSixthWithDragAndDrop();
-			//testSeventh_OpenBrowser();
+			testSeventh_OpenBrowser();**/
 			//testEight_CheckPage();
 			//testNineth_ScrollView();
+			testTenth_CheckIcommerce();
 		} catch (MalformedURLException e) {
 			logger.error(e);
 		}
 	}
 
 	private static void testOne() throws MalformedURLException {
-		AndroidDriver<AndroidElement> driver = initConfiguration();
+		AndroidDriver<AndroidElement> driver = initConfiguration("Capabilities.properties");
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 		driver.findElementsByClassName("android.widget.Button").get(0).click();
 		driver.findElementByXPath("//android.widget.TextView[@text= 'Preference']").click();
@@ -48,7 +50,7 @@ public class Principal extends Configuration {
 	}
 
 	private static void testTwo() throws MalformedURLException {
-		AndroidDriver<AndroidElement> driver = initConfiguration();
+		AndroidDriver<AndroidElement> driver = initConfiguration("Capabilities.properties");
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 		driver.findElementsByClassName("android.widget.Button").get(0).click();
 		driver.findElementByAndroidUIAutomator("text(\"Views\")").click();
@@ -56,7 +58,7 @@ public class Principal extends Configuration {
 	}
 
 	private static void testThreeWithGestures() throws MalformedURLException {
-		AndroidDriver<AndroidElement> driver = initConfiguration();
+		AndroidDriver<AndroidElement> driver = initConfiguration("Capabilities.properties");
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 		driver.findElementsByClassName("android.widget.Button").get(0).click();
 		driver.findElementByXPath("//android.widget.TextView[@text= 'Views']").click();
@@ -70,7 +72,7 @@ public class Principal extends Configuration {
 	}
 
 	private static void testFourthWithSwipe() throws MalformedURLException {
-		AndroidDriver<AndroidElement> driver = initConfiguration();
+		AndroidDriver<AndroidElement> driver = initConfiguration("Capabilities.properties");
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 		driver.findElementsByClassName("android.widget.Button").get(0).click();
 		driver.findElementByXPath("//android.widget.TextView[@text= 'Views']").click();
@@ -85,7 +87,7 @@ public class Principal extends Configuration {
 	}
 	
 	private static void testFifthWithScrolling() throws MalformedURLException {
-		AndroidDriver<AndroidElement> driver = initConfiguration();
+		AndroidDriver<AndroidElement> driver = initConfiguration("Capabilities.properties");
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 		driver.findElementsByClassName("android.widget.Button").get(0).click();
 		driver.findElementByXPath("//android.widget.TextView[@text= 'Views']").click();
@@ -93,7 +95,7 @@ public class Principal extends Configuration {
 	}
 	
 	private static void testSixthWithDragAndDrop() throws MalformedURLException {
-		AndroidDriver<AndroidElement> driver = initConfiguration();
+		AndroidDriver<AndroidElement> driver = initConfiguration("Capabilities.properties");
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 		driver.findElementsByClassName("android.widget.Button").get(0).click();
 		driver.findElementByXPath("//android.widget.TextView[@text= 'Views']").click();
@@ -105,7 +107,7 @@ public class Principal extends Configuration {
 	}
 	
 	private static void testSeventh_OpenBrowser() throws MalformedURLException {
-		AndroidDriver<AndroidElement> driver = initConfiguration();
+		AndroidDriver<AndroidElement> driver = initConfiguration("Browser.properties");
 		driver.get("https://www.facebook.com/");
 		driver.findElementByXPath("//*[@id='m_login_email']").sendKeys("Alejandro");
 		driver.findElementByName("pass").sendKeys("PREUBA");
@@ -113,7 +115,7 @@ public class Principal extends Configuration {
 	}
 	
 	private static void testEight_CheckPage() throws MalformedURLException {
-		AndroidDriver<AndroidElement> driver = initConfiguration();
+		AndroidDriver<AndroidElement> driver = initConfiguration("Browser.properties");
 		driver.get("https://m.cricbuzz.com");
 		driver.findElementByXPath("//a[@href='#menu']").click();
 		driver.findElementByCssSelector("a[title='Cricbuzz Home']").click();
@@ -121,12 +123,24 @@ public class Principal extends Configuration {
 	}
 	
 	private static void testNineth_ScrollView() throws MalformedURLException {
-		AndroidDriver<AndroidElement> driver = initConfiguration();
+		AndroidDriver<AndroidElement> driver = initConfiguration("Browser.properties");
 		driver.get("https://m.cricbuzz.com");
 		driver.findElementByXPath("//a[@href='#menu']").click();
 		driver.findElementByCssSelector("a[title='Cricbuzz Home']").click();
 		System.out.println(driver.getCurrentUrl());
 		JavascriptExecutor javascript=(JavascriptExecutor) driver;
 		javascript.executeScript("window.scrollBy(0,480)", "");
+	}
+	
+	private static void testTenth_CheckIcommerce() throws MalformedURLException {
+		 AndroidDriver<AndroidElement> driver = initConfiguration("Icommerce.properties");
+	     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		 driver.findElement(By.id("com.androidsample.generalstore:id/nameField")).sendKeys("Hello");
+	     driver.hideKeyboard();
+	     driver.findElement(By.xpath("//*[@text='Female']")).click();
+	     driver.findElement(By.id("android:id/text1")).click();
+	     driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"Argentina\"));");
+	     driver.findElement(By.xpath("//*[@text='Argentina']")).click();
+	     driver.findElement(By.id("com.androidsample.generalstore:id/btnLetsShop")).click();
 	}
 }

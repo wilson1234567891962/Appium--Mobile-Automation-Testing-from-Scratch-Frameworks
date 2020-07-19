@@ -17,10 +17,10 @@ public class Configuration {
 
 	final static Logger logger = Logger.getLogger(Configuration.class);
 
-	public static AndroidDriver<AndroidElement> initConfiguration() throws MalformedURLException {
+	public static AndroidDriver<AndroidElement> initConfiguration(String namePath) throws MalformedURLException {
 		AndroidDriver<AndroidElement> driver = null;
 		try (InputStream input = Configuration.class
-				.getResourceAsStream("/com/appium/app/properties/Capabilities.properties")) {
+				.getResourceAsStream("/com/appium/app/properties/" +namePath )) {
 			Properties properties = new Properties();
 			properties.load(input);
 			DesiredCapabilities cap = new DesiredCapabilities();
