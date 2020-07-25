@@ -1,15 +1,19 @@
 package Appium.com.appium.principal;
 
 import java.net.MalformedURLException;
+import java.time.Duration;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
 
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -19,6 +23,7 @@ import static io.appium.java_client.touch.offset.ElementOption.element;
 import static io.appium.java_client.touch.TapOptions.tapOptions;
 import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
 import static java.time.Duration.ofSeconds;
+
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import junit.framework.Assert;
@@ -44,7 +49,8 @@ public class Principal extends Configuration {
 			// testTwelveth_CheckInList();
 			// testThirteenth_CheckPageAndList();
 			// testFourteenth_CheckPageBrowser();
-			testFifteenth_CheckServer();
+			// testFifteenth_checkAlert();
+			testSixTeenth_scrollView();
 		} catch (MalformedURLException e) {
 			logger.error(e);
 		}
@@ -263,11 +269,31 @@ public class Principal extends Configuration {
 		driver.context("NATIVE_APP");
 	}
 
-	private static void testFifteenth_CheckServer() throws MalformedURLException {
+	private static void testFifteenth_checkAlert() throws MalformedURLException {
 		IOSDriver<IOSElement> driver = initConfigurationMac("CapabilitiesMac.properties");
-		System.out.println("Fue llamado");
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.findElementByAccessibilityId("Alert Views").click();
+		driver.findElement(By.xpath("//*[@value='Text Entry']")).click();
+		driver.findElementByClassName("XCUIElementTypeOther").sendKeys("Hello");
+		driver.findElementByName("OK").click();
 	}
 	
+	private static void testSixTeenth_scrollView() throws MalformedURLException {
+		IOSDriver<IOSElement> driver = initConfigurationMac("CapabilitiesMac.properties");
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		Dimension dimensions = driver.manage().window().getSize();
+		Double screenHeightStart = dimensions.getHeight() * 0.5;
+		int h1 = screenHeightStart.intValue();
+		Double screenHeightEnd = dimensions.getHeight() * 0.2;
+		int h2 = screenHeightEnd.intValue();
+		new TouchAction(driver).press(PointOption.point(0,h1))
+		.waitAction(new WaitOptions().withDuration(Duration.ofMillis(600)))
+		.moveTo(PointOption.point(0, h2))
+		.release()
+		.perform();
+		driver.findElementByAccessibilityId("Steppers").click();
+	}
+
 	public static double getAmount(String value) {
 		value = value.substring(1);
 		double amount2value = Double.parseDouble(value);
