@@ -8,6 +8,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSElement;
+
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import Appium.com.appium.utilities.Configuration;
@@ -27,21 +30,22 @@ public class Principal extends Configuration {
 
 	public static void main(String[] args) {
 		try {
-			/**
-			 * testOne(); testTwo(); testThreeWithGestures(); testFourthWithSwipe();
-			 * testFifthWithScrolling(); testSixthWithDragAndDrop();
-			 * testSeventh_OpenBrowser();
-			 **/
+			// testOne(); 
+			// testTwo(); 
+			// testThreeWithGestures(); 
+			// testFourthWithSwipe();
+			// testFifthWithScrolling(); 
+			// testSixthWithDragAndDrop();
+			// testSeventh_OpenBrowser();
 			// testEight_CheckPage();
 			// testNineth_ScrollView();
 			// testTenth_CheckIcommerce();
 			// testEleventh_CheckToast();
 			// testTwelveth_CheckInList();
 			// testThirteenth_CheckPageAndList();
-			testFourteenth_CheckPageBrowser();
+			// testFourteenth_CheckPageBrowser();
+			testFifteenth_CheckServer();
 		} catch (MalformedURLException e) {
-			logger.error(e);
-		} catch (InterruptedException e) {
 			logger.error(e);
 		}
 	}
@@ -259,6 +263,11 @@ public class Principal extends Configuration {
 		driver.context("NATIVE_APP");
 	}
 
+	private static void testFifteenth_CheckServer() throws MalformedURLException {
+		IOSDriver<IOSElement> driver = initConfigurationMac("CapabilitiesMac.properties");
+		System.out.println("Fue llamado");
+	}
+	
 	public static double getAmount(String value) {
 		value = value.substring(1);
 		double amount2value = Double.parseDouble(value);
