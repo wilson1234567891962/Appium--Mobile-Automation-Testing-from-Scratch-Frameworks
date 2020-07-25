@@ -35,11 +35,11 @@ public class Principal extends Configuration {
 
 	public static void main(String[] args) {
 		try {
-			// testOne(); 
-			// testTwo(); 
-			// testThreeWithGestures(); 
+			// testOne();
+			// testTwo();
+			// testThreeWithGestures();
 			// testFourthWithSwipe();
-			// testFifthWithScrolling(); 
+			// testFifthWithScrolling();
 			// testSixthWithDragAndDrop();
 			// testSeventh_OpenBrowser();
 			// testEight_CheckPage();
@@ -51,6 +51,8 @@ public class Principal extends Configuration {
 			// testFourteenth_CheckPageBrowser();
 			// testFifteenth_checkAlert();
 			testSixTeenth_scrollView();
+			testSeventieth_checkIncrementTest();
+			testEightteenth_clickOnDataPicker();
 		} catch (MalformedURLException e) {
 			logger.error(e);
 		}
@@ -277,7 +279,7 @@ public class Principal extends Configuration {
 		driver.findElementByClassName("XCUIElementTypeOther").sendKeys("Hello");
 		driver.findElementByName("OK").click();
 	}
-	
+
 	private static void testSixTeenth_scrollView() throws MalformedURLException {
 		IOSDriver<IOSElement> driver = initConfigurationMac("CapabilitiesMac.properties");
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -286,12 +288,48 @@ public class Principal extends Configuration {
 		int h1 = screenHeightStart.intValue();
 		Double screenHeightEnd = dimensions.getHeight() * 0.2;
 		int h2 = screenHeightEnd.intValue();
-		new TouchAction(driver).press(PointOption.point(0,h1))
-		.waitAction(new WaitOptions().withDuration(Duration.ofMillis(600)))
-		.moveTo(PointOption.point(0, h2))
-		.release()
-		.perform();
+		new TouchAction(driver).press(PointOption.point(0, h1))
+				.waitAction(new WaitOptions().withDuration(Duration.ofMillis(600))).moveTo(PointOption.point(0, h2))
+				.release().perform();
 		driver.findElementByAccessibilityId("Steppers").click();
+	}
+
+	private static void testSeventieth_checkIncrementTest() throws MalformedURLException {
+		IOSDriver<IOSElement> driver = initConfigurationMac("CapabilitiesMac.properties");
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		Dimension dimensions = driver.manage().window().getSize();
+		Double screenHeightStart = dimensions.getHeight() * 0.5;
+		int h1 = screenHeightStart.intValue();
+		Double screenHeightEnd = dimensions.getHeight() * 0.2;
+		int h2 = screenHeightEnd.intValue();
+		new TouchAction(driver).press(PointOption.point(0, h1))
+				.waitAction(new WaitOptions().withDuration(Duration.ofMillis(600))).moveTo(PointOption.point(0, h2))
+				.release().perform();
+		driver.findElementByAccessibilityId("Steppers").click();
+		driver.findElementByAccessibilityId("Steppers").click();
+		driver.findElementByAccessibilityId("Increment").click();
+		driver.findElementByAccessibilityId("Increment").click();
+		System.out.println(driver.findElementsByClassName("XCUIElementTypeStaticText").get(1).getText());
+		System.out.println(driver.findElementsByClassName("XCUIElementTypeStaticText").get(2).getText());
+		driver.findElementByAccessibilityId("Decrement").click();
+		System.out.println(driver.findElementsByClassName("XCUIElementTypeStaticText").get(1).getText());
+	}
+
+	private static void testEightteenth_clickOnDataPicker() throws MalformedURLException {
+		IOSDriver<IOSElement> driver = initConfigurationMac("CapabilitiesMac.properties");
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		Dimension dimensions = driver.manage().window().getSize();
+		Double screenHeightStart = dimensions.getHeight() * 0.5;
+		int h1 = screenHeightStart.intValue();
+		Double screenHeightEnd = dimensions.getHeight() * 0.2;
+		int h2 = screenHeightEnd.intValue();
+		new TouchAction(driver).press(PointOption.point(0, h1))
+				.waitAction(new WaitOptions().withDuration(Duration.ofMillis(600))).moveTo(PointOption.point(0, h2))
+				.release().perform();
+		driver.findElementByAccessibilityId("Picker View").click();
+		driver.findElementByName("Green color component value").sendKeys("220");
+		driver.findElementsByClassName("XCUIElementTypePickerWheel").get(0).sendKeys("55");
+		driver.findElementByXPath("//*[@name='Blue color component value']").sendKeys("130");
 	}
 
 	public static double getAmount(String value) {
