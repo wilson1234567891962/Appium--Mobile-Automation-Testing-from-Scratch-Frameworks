@@ -50,9 +50,10 @@ public class Principal extends Configuration {
 			// testThirteenth_CheckPageAndList();
 			// testFourteenth_CheckPageBrowser();
 			// testFifteenth_checkAlert();
-			testSixTeenth_scrollView();
-			testSeventieth_checkIncrementTest();
-			testEightteenth_clickOnDataPicker();
+			// testSixTeenth_scrollView();
+			// testSeventieth_checkIncrementTest();
+			// testEightteenth_clickOnDataPicker();
+			testNineteenth_openBrowser();
 		} catch (MalformedURLException e) {
 			logger.error(e);
 		}
@@ -330,6 +331,12 @@ public class Principal extends Configuration {
 		driver.findElementByName("Green color component value").sendKeys("220");
 		driver.findElementsByClassName("XCUIElementTypePickerWheel").get(0).sendKeys("55");
 		driver.findElementByXPath("//*[@name='Blue color component value']").sendKeys("130");
+	}
+	
+	private static void testNineteenth_openBrowser() throws MalformedURLException {
+		IOSDriver<IOSElement> driver = initConfigurationMac("BrowserMac.properties");
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.get("https://wwww.gmail.com");
 	}
 
 	public static double getAmount(String value) {
